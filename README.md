@@ -1,359 +1,285 @@
-# Student Management System
+<div align="center">
 
-A full-stack web application for managing student tasks, submissions, and grades with real-time notifications and analytics.
+# 🎓 Student Management System
 
-## Features
+**A full-stack platform for managing student tasks, submissions, grading, and real-time collaboration.**
 
-### Core Features
-- **Authentication**: JWT-based login and registration
-- **Role-Based Access Control**: Student, Mentor, and Admin roles
-- **Task Management**: Create, update, and delete tasks
-- **Submission System**: Submit tasks with text or links
-- **Grading System**: Grade submissions and provide feedback
-- **Real-time Notifications**: Socket.io-based notifications
-- **Analytics Dashboard**: Track student progress and performance
-- **Messaging System**: Direct messaging between students and mentors
-- **Group System**: Create and manage student groups
-- **Plagiarism Detection**: Basic plagiarism checking
-- **Leaderboard**: Points-based gamification system
-- **AI Features**: Auto-generated feedback and weak student prediction
+![Node.js](https://img.shields.io/badge/Node.js-18.x-339933?style=flat-square&logo=node.js&logoColor=white)
+![React](https://img.shields.io/badge/React-18.2-61DAFB?style=flat-square&logo=react&logoColor=black)
+![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=flat-square&logo=mongodb&logoColor=white)
+![Socket.io](https://img.shields.io/badge/Socket.io-4.6-010101?style=flat-square&logo=socket.io)
+![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)
 
-### Advanced Features
-- Dark mode support
-- Responsive design
-- Late submission detection
-- Attachment support
-- Progress tracking
-- Email notifications (mock)
-- Real-time chat with typing indicators
+[Features](#-features) · [Tech Stack](#-tech-stack) · [Quick Start](#-quick-start) · [API Reference](#-api-reference) · [Deployment](#-deployment)
 
-## Tech Stack
+</div>
+
+---
+
+## 📋 Overview
+
+Student Management System (SMS) is a role-based web application that enables students, mentors, and admins to collaborate effectively. Students submit tasks and track their progress; mentors review and grade work; admins oversee the entire platform — all with real-time notifications powered by Socket.io.
+
+---
+
+## ✨ Features
+
+| Category | Features |
+|---|---|
+| **Authentication** | JWT login/register, protected routes, role-based access |
+| **Task Management** | Create, assign, update, delete tasks with priority levels |
+| **Submission System** | Text/link submissions, file attachments, late detection |
+| **Grading & Feedback** | Score submissions, AI-generated feedback, plagiarism check |
+| **Real-time** | Socket.io notifications, live chat with typing indicators |
+| **Analytics** | Student progress charts, weak-student detection, leaderboard |
+| **Messaging** | Direct messaging between students and mentors |
+| **Groups** | Create and manage student groups for collaborative tasks |
+
+---
+
+## 🛠 Tech Stack
 
 ### Backend
-- **Node.js** with Express.js
-- **MongoDB** with Mongoose
-- **Socket.io** for real-time features
-- **JWT** for authentication
-- **Multer** for file uploads
+- **Runtime**: Node.js with Express.js
+- **Database**: MongoDB with Mongoose ODM
+- **Real-time**: Socket.io
+- **Auth**: JSON Web Tokens (JWT) + bcryptjs
+- **File Uploads**: Multer
+- **Email**: Nodemailer
 
 ### Frontend
-- **React** 18.2.0
-- **React Router** for navigation
-- **Axios** for API calls
-- **Socket.io Client** for real-time updates
-- **CSS3** for styling
+- **Framework**: React 18.2 with React Router v6
+- **HTTP Client**: Axios
+- **Real-time**: Socket.io Client
+- **Styling**: CSS3 (custom, no frameworks)
 
-## Prerequisites
+---
 
-- Node.js (v14 or higher)
-- MongoDB (local or cloud)
-- npm or yarn
+## ⚡ Quick Start
 
-## Installation & Setup
+### Prerequisites
+- Node.js v16 or higher
+- npm v8 or higher
+- MongoDB (local or Atlas cloud URI)
 
 ### 1. Clone the Repository
-
 ```bash
-git clone <repository-url>
-cd student-management-system
+git clone https://github.com/BYTEZEN-11/SMS.git
+cd SMS
 ```
 
-### 2. Backend Setup
+### 2. Configure Environment Variables
+```bash
+# Root .env (already provided — update values as needed)
+PORT=5000
+NODE_ENV=development
+MONGODB_URI=<your-mongodb-connection-string>
+JWT_SECRET=<your-secret-key>
+FRONTEND_URL=http://localhost:3000
+```
 
+### 3. Start the Backend
 ```bash
 cd backend
-
-# Install dependencies
 npm install
-
-# Create .env file (already provided)
-# Update MONGODB_URI if using a different database
-
-# Start the server
-npm start
-# or for development with auto-reload
-npm run dev
+npm run dev        # Development (nodemon auto-reload)
+# npm start        # Production
 ```
+> Backend runs at `http://localhost:5000`
 
-The backend will run on `http://localhost:5000`
-
-### 3. Frontend Setup
-
+### 4. Start the Frontend
 ```bash
 cd frontend
-
-# Install dependencies
 npm install
-
-# Create .env file
-echo "REACT_APP_API_URL=http://localhost:5000/api" > .env
-echo "REACT_APP_SOCKET_URL=http://localhost:5000" >> .env
-
-# Start the development server
 npm start
 ```
+> Frontend runs at `http://localhost:3000`
 
-The frontend will run on `http://localhost:3000`
+---
 
-## API Endpoints
+## 🔐 User Roles & Permissions
+
+| Permission | Student | Mentor | Admin |
+|---|:---:|:---:|:---:|
+| View assigned tasks | ✅ | ✅ | ✅ |
+| Submit tasks | ✅ | — | — |
+| Create & manage tasks | — | ✅ | ✅ |
+| Grade submissions | — | ✅ | ✅ |
+| View analytics | — | ✅ | ✅ |
+| Manage all users | — | — | ✅ |
+| Change user roles | — | — | ✅ |
+| Delete any content | — | — | ✅ |
+
+---
+
+## 📡 API Reference
 
 ### Authentication
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - Login user
-- `GET /api/auth/me` - Get current user
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/auth/register` | Register a new user |
+| `POST` | `/api/auth/login` | Login and receive JWT |
+| `GET` | `/api/auth/me` | Get current authenticated user |
 
 ### Users
-- `GET /api/users` - Get all users
-- `GET /api/users/:id` - Get user by ID
-- `PUT /api/users/:id` - Update user
-- `DELETE /api/users/:id` - Delete user (admin only)
-- `PUT /api/users/:id/role` - Change user role (admin only)
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/users` | List all users |
+| `GET` | `/api/users/:id` | Get user by ID |
+| `PUT` | `/api/users/:id` | Update user profile |
+| `DELETE` | `/api/users/:id` | Delete user *(admin only)* |
+| `PUT` | `/api/users/:id/role` | Change user role *(admin only)* |
 
 ### Tasks
-- `POST /api/tasks` - Create task (mentor/admin)
-- `GET /api/tasks` - Get all tasks
-- `GET /api/tasks/:id` - Get task by ID
-- `PUT /api/tasks/:id` - Update task (mentor/admin)
-- `DELETE /api/tasks/:id` - Delete task (mentor/admin)
-- `GET /api/tasks/my-tasks` - Get student's tasks
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/tasks` | Create task *(mentor/admin)* |
+| `GET` | `/api/tasks` | Get all tasks |
+| `GET` | `/api/tasks/:id` | Get task by ID |
+| `PUT` | `/api/tasks/:id` | Update task *(mentor/admin)* |
+| `DELETE` | `/api/tasks/:id` | Delete task *(mentor/admin)* |
+| `GET` | `/api/tasks/my-tasks` | Get student's own tasks |
 
 ### Submissions
-- `POST /api/submissions` - Submit task
-- `GET /api/submissions/task/:taskId` - Get submissions for task
-- `GET /api/submissions/my-submissions` - Get student's submissions
-- `PUT /api/submissions/:submissionId/grade` - Grade submission (mentor/admin)
-- `PUT /api/submissions/:submissionId/feedback` - Add feedback (mentor/admin)
-- `POST /api/submissions/:submissionId/plagiarism/:taskId` - Check plagiarism
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/submissions` | Submit a task |
+| `GET` | `/api/submissions/my-submissions` | Get student's submissions |
+| `GET` | `/api/submissions/task/:taskId` | Get submissions for a task |
+| `PUT` | `/api/submissions/:id/grade` | Grade a submission |
+| `PUT` | `/api/submissions/:id/feedback` | Add feedback |
+| `POST` | `/api/submissions/:id/plagiarism/:taskId` | Run plagiarism check |
 
-### Groups
-- `POST /api/groups` - Create group
-- `GET /api/groups` - Get all groups
-- `GET /api/groups/:id` - Get group by ID
-- `POST /api/groups/add-member` - Add member to group
-- `POST /api/groups/remove-member` - Remove member from group
-- `DELETE /api/groups/:id` - Delete group
-
-### Messages
-- `POST /api/messages` - Send message
-- `GET /api/messages/conversation/:userId` - Get conversation
-- `GET /api/messages/inbox` - Get inbox
-- `PUT /api/messages/:messageId/read` - Mark message as read
-- `DELETE /api/messages/:messageId` - Delete message
-
-### Notifications
-- `GET /api/notifications` - Get notifications
-- `PUT /api/notifications/:notificationId/read` - Mark as read
-- `PUT /api/notifications/read-all` - Mark all as read
-- `DELETE /api/notifications/:notificationId` - Delete notification
+### Groups, Messages & Notifications
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/groups` | Create a group |
+| `POST` | `/api/groups/add-member` | Add member to group |
+| `GET` | `/api/messages/inbox` | Get inbox |
+| `GET` | `/api/messages/conversation/:userId` | Get conversation |
+| `GET` | `/api/notifications` | Get notifications |
+| `PUT` | `/api/notifications/read-all` | Mark all as read |
 
 ### Analytics
-- `GET /api/analytics/student-progress` - Get student progress
-- `GET /api/analytics/admin-stats` - Get admin statistics
-- `GET /api/analytics/task/:taskId` - Get task analytics
-- `GET /api/analytics/weak-students` - Get weak students list
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/analytics/student-progress` | Student progress report |
+| `GET` | `/api/analytics/admin-stats` | System-wide statistics |
+| `GET` | `/api/analytics/weak-students` | Identify at-risk students |
+| `GET` | `/api/analytics/task/:taskId` | Per-task analytics |
 
-## User Roles & Permissions
+---
 
-### Student
-- View assigned tasks
-- Submit tasks
-- View feedback and grades
-- View leaderboard
-- Send messages to mentors
-- View personal progress
-
-### Mentor
-- Create and manage tasks
-- Review submissions
-- Grade submissions
-- Provide feedback
-- View analytics
-- Identify weak students
-- Message students
-
-### Admin
-- Full system access
-- Manage all users
-- Manage all tasks
-- View system analytics
-- Change user roles
-- Delete any content
-
-## Database Schema
-
-### User
-```javascript
-{
-  name: String,
-  email: String (unique),
-  password: String (hashed),
-  role: String (student/mentor/admin),
-  profilePicture: String,
-  bio: String,
-  points: Number,
-  isActive: Boolean,
-  department: String,
-  enrollmentDate: Date
-}
-```
-
-### Task
-```javascript
-{
-  title: String,
-  description: String,
-  createdBy: ObjectId (User),
-  assignedTo: [ObjectId] (User),
-  dueDate: Date,
-  priority: String (low/medium/high),
-  status: String (pending/submitted/reviewed/completed),
-  attachments: [{ fileName, fileUrl, uploadedAt }],
-  maxScore: Number,
-  isGroupTask: Boolean,
-  groupId: ObjectId (Group),
-  tags: [String]
-}
-```
-
-### Submission
-```javascript
-{
-  taskId: ObjectId (Task),
-  studentId: ObjectId (User),
-  submissionText: String,
-  submissionLink: String,
-  attachments: [{ fileName, fileUrl, uploadedAt }],
-  submittedAt: Date,
-  isLate: Boolean,
-  status: String (submitted/reviewed/graded),
-  score: Number,
-  feedback: String,
-  reviewedBy: ObjectId (User),
-  reviewedAt: Date,
-  plagiarismScore: Number,
-  aiGeneratedFeedback: String
-}
-```
-
-## Security Features
-
-- Password hashing with bcryptjs
-- JWT token-based authentication
-- Role-based access control middleware
-- Input validation
-- CORS protection
-- Protected routes
-- Secure file upload handling
-
-## UI Features
-
-- Clean and modern dashboard
-- Responsive design (mobile, tablet, desktop)
-- Dark mode support
-- Real-time notifications
-- Progress bars and statistics
-- Color-coded priority levels
-- Status badges
-- Interactive charts and analytics
-
-## Sample Data
-
-To test the system, you can use these credentials:
-
-**Admin Account**
-- Email: admin@example.com
-- Password: admin123
-
-**Mentor Account**
-- Email: mentor@example.com
-- Password: mentor123
-
-**Student Account**
-- Email: student@example.com
-- Password: student123
-
-## Troubleshooting
-
-### MongoDB Connection Error
-- Ensure MongoDB is running locally or update `MONGODB_URI` in `.env`
-- Check connection string format
-
-### Port Already in Use
-- Backend: Change `PORT` in `.env`
-- Frontend: Use `PORT=3001 npm start`
-
-### CORS Error
-- Ensure `FRONTEND_URL` in backend `.env` matches frontend URL
-- Check Socket.io CORS configuration
-
-### Socket.io Connection Failed
-- Verify backend is running
-- Check `REACT_APP_SOCKET_URL` in frontend `.env`
-
-## Project Structure
+## 🗂 Project Structure
 
 ```
-student-management-system/
+SMS/
 ├── backend/
-│   ├── config/
-│   ├── controllers/
-│   ├── middleware/
-│   ├── models/
-│   ├── routes/
-│   ├── services/
-│   ├── sockets/
-│   ├── utils/
-│   ├── server.js
-│   └── package.json
+│   ├── config/          # Database & app configuration
+│   ├── controllers/     # Route handler logic
+│   ├── middleware/       # Auth, error handling
+│   ├── models/          # Mongoose schemas
+│   ├── routes/          # Express route definitions
+│   ├── services/        # Business logic layer
+│   ├── sockets/         # Socket.io event handlers
+│   ├── utils/           # Logger, token generator, constants
+│   ├── scripts/         # DB seeding & management scripts
+│   ├── server.js        # App entry point
+│   └── startup.js       # Pre-flight checks
 ├── frontend/
 │   ├── public/
-│   ├── src/
-│   │   ├── assets/
-│   │   ├── components/
-│   │   ├── context/
-│   │   ├── hooks/
-│   │   ├── pages/
-│   │   ├── services/
-│   │   ├── utils/
-│   │   ├── App.js
-│   │   └── index.js
-│   └── package.json
-├── .env
-└── README.md
+│   └── src/
+│       ├── components/  # Reusable UI components
+│       ├── context/     # React context providers
+│       ├── hooks/       # Custom React hooks
+│       ├── pages/       # Page-level components
+│       ├── services/    # Axios API service calls
+│       ├── utils/       # Helpers & constants
+│       ├── App.js
+│       └── index.js
+├── .env                 # Environment variables
+└── render.yaml          # Render deployment config
 ```
 
-## Deployment
+---
 
-### Backend (Heroku)
+## 🧪 Test Credentials
+
+Seed the database first:
 ```bash
-cd backend
-heroku create your-app-name
-git push heroku main
+cd backend && npm run seed
 ```
 
-### Frontend (Vercel)
+| Role | Email | Password |
+|---|---|---|
+| Admin | admin@example.com | admin123 |
+| Mentor | mentor@example.com | mentor123 |
+| Student | student@example.com | student123 |
+
+---
+
+## 🚀 Deployment
+
+### Backend — Render
+```bash
+# render.yaml is already configured.
+# Connect your GitHub repo to Render and set environment variables in the dashboard.
+```
+
+### Frontend — Vercel
 ```bash
 cd frontend
 npm run build
 vercel --prod
 ```
 
-## License
-
-This project is open source and available under the MIT License.
-
-## Author
-
-Student Management System - Full Stack Application
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## Support
-
-For support, email support@example.com or open an issue in the repository.
+> Ensure `REACT_APP_API_URL` and `REACT_APP_SOCKET_URL` point to your live backend URL.
 
 ---
 
-**Happy Learning!**
+## 🔧 Troubleshooting
+
+| Issue | Solution |
+|---|---|
+| MongoDB connection error | Check `MONGODB_URI` in `.env`; whitelist your IP in Atlas |
+| Port already in use | Change `PORT` in `.env` or run `PORT=3001 npm start` for frontend |
+| CORS error | Ensure `FRONTEND_URL` in backend `.env` matches exact frontend origin |
+| Socket.io not connecting | Verify backend is running and `REACT_APP_SOCKET_URL` is correct |
+
+---
+
+## 🛡 Security
+
+- Passwords hashed with **bcryptjs** (salt rounds: 10)
+- Stateless auth via **JWT** (expiry configurable)
+- Role-based middleware on all sensitive routes
+- Input validation with **express-validator**
+- CORS restricted to configured frontend origin
+- Secure file upload filtering via **Multer**
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feat/your-feature`
+3. Commit your changes: `git commit -m "feat: add your feature"`
+4. Push and open a Pull Request
+
+---
+
+<div align="center">
+
+Made with ❤️ by **BYTEZEN-11**
+
+⭐ Star this repo if you found it helpful!
+
+</div>
