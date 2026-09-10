@@ -73,3 +73,26 @@ export const validateEmail = (email) => {
 export const validatePassword = (password) => {
   return password && password.length >= 6;
 };
+
+// Returns a color based on a numeric score (0–100)
+export const getScoreColor = (score) => {
+  if (score === null || score === undefined) return '#999';
+  if (score >= 85) return '#00aa00';
+  if (score >= 60) return '#ffaa00';
+  return '#ff4444';
+};
+
+// Returns a human-readable relative time string (e.g. "2 hours ago")
+export const formatRelativeTime = (date) => {
+  if (!date) return '';
+  const now = new Date();
+  const past = new Date(date);
+  const diffMs = now - past;
+  const diffMins = Math.floor(diffMs / (1000 * 60));
+  if (diffMins < 1) return 'just now';
+  if (diffMins < 60) return `${diffMins} min ago`;
+  const diffHrs = Math.floor(diffMins / 60);
+  if (diffHrs < 24) return `${diffHrs} hr${diffHrs > 1 ? 's' : ''} ago`;
+  const diffDays = Math.floor(diffHrs / 24);
+  return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+};
