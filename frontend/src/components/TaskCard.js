@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { formatDate, getDaysRemaining, getPriorityColor } from '../utils/helpers';
+import { formatDate, getDaysRemaining, getPriorityColor, truncateText } from '../utils/helpers';
 import '../assets/styles/taskcard.css';
 
 const TaskCard = ({ task, onDelete, onEdit }) => {
@@ -19,7 +19,7 @@ const TaskCard = ({ task, onDelete, onEdit }) => {
         </span>
       </div>
 
-      <p className="task-description">{task.description.substring(0, 100)}...</p>
+      <p className="task-description">{truncateText(task.description, 100)}</p>
 
       <div className="task-meta">
         <span className="due-date">
